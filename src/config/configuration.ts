@@ -16,4 +16,8 @@ export default registerAs('configuration', () => ({
     dbPassword: process.env.DB_PASSWORD as string,
     dbUrl: process.env.DB_URL as string,
   },
+  throttle: {
+    throttleTtl: parseInt(process.env.THROTTLE_TTL as string, 10) || 60_000,
+    throttleLimit: parseInt(process.env.THROTTLE_LIMIT as string, 10) || 10,
+  },
 }));

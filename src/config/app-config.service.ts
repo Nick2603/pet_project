@@ -40,4 +40,12 @@ export class AppConfigService {
   get dbUrl() {
     return this.config.database.dbUrl;
   }
+
+  get throttleTtl() {
+    return this.config.throttle.throttleTtl;
+  }
+
+  get throttleLimit() {
+    return this.config.throttle.throttleLimit;
+  }
 }

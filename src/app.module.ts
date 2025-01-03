@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppHttpModule } from './http/app-http.module';
 import { MongooseConfigModule } from './mongoose/mongoose-config.module';
+import { ThrottlerConfigModule } from './throttle/throttler-config.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MongooseConfigModule } from './mongoose/mongoose-config.module';
     UsersModule,
     ScheduleModule.forRoot(),
     MongooseConfigModule,
+    ThrottlerConfigModule,
   ],
 })
 export class AppModule {}
