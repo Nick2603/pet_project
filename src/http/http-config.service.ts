@@ -5,6 +5,7 @@ import { AppConfigService } from 'src/config/app-config.service';
 @Injectable()
 export class HttpConfigService implements HttpModuleOptionsFactory {
   constructor(private readonly appConfigService: AppConfigService) {}
+
   createHttpOptions(): HttpModuleOptions {
     return {
       timeout: this.appConfigService.httpTimeout,

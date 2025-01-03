@@ -2,18 +2,19 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppConfigModule } from './config/app-config.module';
 import { getAppConfigOptions } from './config/get-app-config-options';
-import { HttpModule } from '@nestjs/axios';
-import { getHttpConfigOptions } from './http/get-http-config-options';
 import { UsersModule } from './users/users.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AppHttpModule } from './http/app-http.module';
+import { MongooseConfigModule } from './mongoose/mongoose-config.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(getAppConfigOptions()),
     AppConfigModule,
-    HttpModule.registerAsync(getHttpConfigOptions()),
+    AppHttpModule,
     UsersModule,
     ScheduleModule.forRoot(),
+    MongooseConfigModule,
   ],
 })
 export class AppModule {}
