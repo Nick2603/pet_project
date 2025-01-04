@@ -1,6 +1,6 @@
 import { CronService } from './../cron/cron.service';
 import { Injectable } from '@nestjs/common';
-import { user } from './types';
+import type { user } from './types';
 import { AppConfigService } from 'src/config/app-config.service';
 import { CronExpression } from '@nestjs/schedule';
 import { AppHttpService } from 'src/http/app-http.service';

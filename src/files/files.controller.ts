@@ -1,18 +1,19 @@
 import {
-  Body,
   Controller,
   FileTypeValidator,
   Get,
   HttpCode,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
-  StreamableFile,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
+import type { Response } from 'express';
 
 @Controller('files')
 export class FilesController {
@@ -31,14 +32,14 @@ export class FilesController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<void> {
+  ) {
     await this.filesService.save(file);
   }
 
-  @Get()
-  readFileStream(
-    @Body() { filename }: { filename: string },
-  ): Promise<StreamableFile> {
-    return this.filesService.readFileStream(filename);
+  @Get(':filename')
+  async readFile(@Param('filename') filename: string, @Res() res: Response) {
+    const fileStream = await this.filesService.read(filename);
+
+    fileStream.pipe(res);
   }
 }

@@ -9,6 +9,8 @@ import { AppConfigService } from './config/app-config.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseConfigOptions } from './mongoose/get-mongoose-config-options';
 import { FilesModule } from './files/files.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { getMulterConfigOptions } from './multer/get-multer-config-options';
 
 @Module({
   imports: [
@@ -27,6 +29,11 @@ import { FilesModule } from './files/files.module';
       useFactory: getThrottlerConfigOptions,
     }),
     FilesModule,
+    MulterModule.registerAsync({
+      imports: [AppConfigModule],
+      inject: [AppConfigService],
+      useFactory: getMulterConfigOptions,
+    }),
   ],
 })
 export class AppModule {}
