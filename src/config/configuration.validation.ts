@@ -11,6 +11,7 @@ export const validationSchema = Joi.object({
   DB_URL: Joi.string().uri().required(),
   THROTTLE_TTL: Joi.number(),
   THROTTLE_LIMIT: Joi.number(),
+  FILE_UPLOAD_FOLDER: Joi.string(),
 });
 
 export const validationOptions = {

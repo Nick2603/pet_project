@@ -20,4 +20,7 @@ export default registerAs('configuration', () => ({
     throttleTtl: parseInt(process.env.THROTTLE_TTL as string, 10) || 60_000,
     throttleLimit: parseInt(process.env.THROTTLE_LIMIT as string, 10) || 10,
   },
+  fileUpload: {
+    folder: process.env.FILE_UPLOAD_FOLDER || 'upload',
+  },
 }));

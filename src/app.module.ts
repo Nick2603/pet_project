@@ -8,6 +8,7 @@ import { getThrottlerConfigOptions } from './throttle/get-throttler-config-optio
 import { AppConfigService } from './config/app-config.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseConfigOptions } from './mongoose/get-mongoose-config-options';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { getMongooseConfigOptions } from './mongoose/get-mongoose-config-options
       inject: [AppConfigService],
       useFactory: getThrottlerConfigOptions,
     }),
+    FilesModule,
   ],
 })
 export class AppModule {}

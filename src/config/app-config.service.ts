@@ -48,4 +48,8 @@ export class AppConfigService {
   get throttleLimit() {
     return this.config.throttle.throttleLimit;
   }
+
+  get fileFolder() {
+    return this.config.fileUpload.folder;
+  }
 }
