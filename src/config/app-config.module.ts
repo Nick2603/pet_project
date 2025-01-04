@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppConfigService } from './app-config.service';
 import { ConfigModule } from '@nestjs/config';
-import configuration from './configuration';
+import { getAppConfigOptions } from './get-app-config-options';
 
 @Module({
-  imports: [ConfigModule.forFeature(configuration)],
+  imports: [ConfigModule.forRoot(getAppConfigOptions())],
   providers: [AppConfigService],
   exports: [AppConfigService],
 })

@@ -51,8 +51,6 @@ export class UsersService {
 
         const notIncludedUsers = findNew(newUsers, existingUsers);
 
-        console.log(notIncludedUsers);
-
         const userPromises = notIncludedUsers.map((user) =>
           this.usersRepository.create(user),
         );

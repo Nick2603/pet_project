@@ -1,8 +1,9 @@
-import { HttpModuleAsyncOptions } from '@nestjs/axios';
-import { HttpConfigModule } from './http-config.module';
-import { HttpConfigService } from './http-config.service';
+import { HttpModuleOptions } from '@nestjs/axios';
+import { AppConfigService } from 'src/config/app-config.service';
 
-export const getHttpConfigOptions = (): HttpModuleAsyncOptions => ({
-  imports: [HttpConfigModule],
-  useExisting: HttpConfigService,
+export const getHttpConfigOptions = (
+  appConfigService: AppConfigService,
+): HttpModuleOptions => ({
+  timeout: appConfigService.httpTimeout,
+  maxRedirects: appConfigService.httpMaxRedirects,
 });

@@ -1,8 +1,8 @@
-import { MongooseConfigService } from './mongoose-config.service';
-import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
-import { MongooseConfigModule } from './mongoose-config.module';
+import { MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import { AppConfigService } from 'src/config/app-config.service';
 
-export const getMongooseConfigOptions = (): MongooseModuleAsyncOptions => ({
-  imports: [MongooseConfigModule],
-  useExisting: MongooseConfigService,
+export const getMongooseConfigOptions = (
+  appConfigService: AppConfigService,
+): MongooseModuleFactoryOptions => ({
+  uri: appConfigService.dbUrl,
 });

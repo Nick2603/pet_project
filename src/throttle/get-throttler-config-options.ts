@@ -1,8 +1,13 @@
-import { ThrottlerAsyncOptions } from '@nestjs/throttler';
-import { ThrottlerConfigModule } from './throttler-config.module';
-import { ThrottlerConfigService } from './throttler-config.service';
+import { ThrottlerModuleOptions } from '@nestjs/throttler';
+import { AppConfigService } from 'src/config/app-config.service';
 
-export const getThrottlerConfigOptions = (): ThrottlerAsyncOptions => ({
-  imports: [ThrottlerConfigModule],
-  useExisting: ThrottlerConfigService,
+export const getThrottlerConfigOptions = (
+  appConfigService: AppConfigService,
+): ThrottlerModuleOptions => ({
+  throttlers: [
+    {
+      ttl: appConfigService.throttleTtl,
+      limit: appConfigService.throttleLimit,
+    },
+  ],
 });
