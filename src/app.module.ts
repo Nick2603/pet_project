@@ -11,6 +11,8 @@ import { getMongooseConfigOptions } from './mongoose/get-mongoose-config-options
 import { FilesModule } from './files/files.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { getMulterConfigOptions } from './multer/get-multer-config-options';
+import { CacheModule } from '@nestjs/cache-manager';
+import { getCacheConfigOptions } from './cache/get-cache-config-options';
 
 @Module({
   imports: [
@@ -33,6 +35,12 @@ import { getMulterConfigOptions } from './multer/get-multer-config-options';
       imports: [AppConfigModule],
       inject: [AppConfigService],
       useFactory: getMulterConfigOptions,
+    }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [AppConfigModule],
+      inject: [AppConfigService],
+      useFactory: getCacheConfigOptions,
     }),
   ],
 })

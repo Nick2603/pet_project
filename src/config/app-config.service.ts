@@ -52,4 +52,24 @@ export class AppConfigService {
   get fileFolder() {
     return this.config.fileUpload.folder;
   }
+
+  get redisUsername() {
+    return this.config.redis.username;
+  }
+
+  get redisPassword() {
+    return this.config.redis.password;
+  }
+
+  get redisHost() {
+    return this.config.redis.host;
+  }
+
+  get redisPort() {
+    return this.config.redis.port;
+  }
+
+  get redisTtl() {
+    return this.config.redis.ttl;
+  }
 }

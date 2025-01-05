@@ -12,6 +12,11 @@ export const validationSchema = Joi.object({
   THROTTLE_TTL: Joi.number(),
   THROTTLE_LIMIT: Joi.number(),
   FILE_UPLOAD_FOLDER: Joi.string(),
+  REDIS_USERNAME: Joi.string().required(),
+  REDIS_PASSWORD: Joi.string().required(),
+  REDIS_HOST: Joi.string().required(),
+  REDIS_PORT: Joi.number().required(),
+  REDIS_TTL: Joi.number().required(),
 });
 
 export const validationOptions = {

@@ -23,4 +23,11 @@ export default registerAs('configuration', () => ({
   fileUpload: {
     folder: process.env.FILE_UPLOAD_FOLDER || 'upload',
   },
+  redis: {
+    username: process.env.REDIS_USERNAME as string,
+    password: process.env.REDIS_PASSWORD as string,
+    host: process.env.REDIS_HOST as string,
+    port: parseInt(process.env.REDIS_PORT as string, 10),
+    ttl: parseInt(process.env.REDIS_TTL as string, 10),
+  },
 }));
