@@ -75,9 +75,12 @@ export class User implements user {
   @IsString()
   name: string;
 
-  @Prop(() => String)
+  @Prop({ type: String, unique: true, index: true })
   @IsString()
   username: string;
+
+  @Prop(() => String)
+  avatar?: string;
 
   @Prop(() => String)
   @IsString()

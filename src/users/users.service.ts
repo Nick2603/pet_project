@@ -77,4 +77,8 @@ export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     return this.usersRepository.create(dto);
   }
+
+  async updateUserAvatar(username: string, avatar: string): Promise<User> {
+    return this.usersRepository.updateUserAvatar(username, avatar);
+  }
 }

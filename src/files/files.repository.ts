@@ -3,9 +3,10 @@ import * as path from 'node:path';
 import * as fsPromises from 'node:fs/promises';
 import * as fs from 'node:fs';
 import { AppConfigService } from 'src/config/app-config.service';
-import { GridFSBucket, GridFSBucketReadStream } from 'mongodb';
+import { GridFSBucket, GridFSBucketReadStream, ObjectId } from 'mongodb';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class FilesRepository {
@@ -14,6 +15,7 @@ export class FilesRepository {
   constructor(
     @InjectConnection() private connection: Connection,
     private readonly appConfigService: AppConfigService,
+    private readonly userService: UsersService,
   ) {
     this.bucket = new GridFSBucket(connection.db!, { bucketName: 'images' });
   }
@@ -55,11 +57,47 @@ export class FilesRepository {
     }
   };
 
+  async uploadAvatarForUser(file: Express.Multer.File, username: string) {
+    const session = await this.connection.startSession();
+
+    try {
+      session.startTransaction();
+
+      const avatar = await this.saveInDb(file);
+
+      if (!avatar) throw new Error(`failed to upload: ${file.originalname}`);
+
+      const updatedUser = this.userService.updateUserAvatar(
+        username,
+        avatar.originalname,
+      );
+
+      await session.commitTransaction();
+
+      return updatedUser;
+    } catch {
+      await session.abortTransaction();
+
+      throw new Error('Error on avatar update');
+    } finally {
+      session.endSession();
+    }
+  }
+
   /**
    * Used to save files in cloud mongodb
    */
-  async saveInDb(file: Express.Multer.File): Promise<unknown> {
+  async saveInDb(file: Express.Multer.File): Promise<{
+    filename: ObjectId;
+    originalname: string;
+  } | void> {
     const { originalname, buffer } = file;
+
+    const existingFiles = await this.bucket
+      .find({ filename: originalname })
+      .toArray();
+
+    if (existingFiles.length > 0) return;
 
     return new Promise((resolve, reject) => {
       try {

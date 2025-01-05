@@ -11,4 +11,8 @@ export class FilesService {
   read(filename: string) {
     return this.filesRepository.readFromDb(filename);
   }
+
+  updateUserAvatar(file: Express.Multer.File, username: string) {
+    return this.filesRepository.uploadAvatarForUser(file, username);
+  }
 }

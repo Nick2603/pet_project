@@ -33,13 +33,33 @@ export class FilesController {
     )
     file: Express.Multer.File,
   ) {
-    await this.filesService.save(file);
+    return this.filesService.save(file);
   }
 
   @Get(':filename')
   async readFile(@Param('filename') filename: string, @Res() res: Response) {
     const fileStream = await this.filesService.read(filename);
 
+    res.setHeader('Content-Type', 'image/jpeg');
+
     fileStream.pipe(res);
+  }
+
+  @Post('user-avatar/:username')
+  @HttpCode(201)
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadUserAvatar(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 100_000 }),
+          new FileTypeValidator({ fileType: 'image/jpeg' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Param('username') username: string,
+  ) {
+    return this.filesService.updateUserAvatar(file, username);
   }
 }

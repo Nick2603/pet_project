@@ -16,4 +16,14 @@ export class UsersRepository {
 
     return createdUser.save();
   }
+
+  async updateUserAvatar(username: string, avatar: string): Promise<User> {
+    const user = await this.userModel.findOne({ username });
+
+    if (!user) throw new Error(`user ${username} not found`);
+
+    user.avatar = avatar;
+
+    return user.save();
+  }
 }

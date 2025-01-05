@@ -20,4 +20,5 @@ export type user = {
     catchPhrase: string;
     bs: string;
   };
+  avatar?: string;
 };
