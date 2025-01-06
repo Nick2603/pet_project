@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import * as fsPromises from 'node:fs/promises';
 import * as fs from 'node:fs';
 import { AppConfigService } from 'src/config/app-config.service';
-import { GridFSBucket, GridFSBucketReadStream, ObjectId } from 'mongodb';
+import { GridFSBucket, GridFSBucketReadStream, type ObjectId } from 'mongodb';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
@@ -67,7 +67,17 @@ export class FilesRepository {
 
       if (!avatar) throw new Error(`failed to upload: ${file.originalname}`);
 
-      const updatedUser = this.userService.updateUserAvatar(
+      const user = await this.userService.findByUsername(username);
+
+      if (!user) throw new Error(`user: ${username} not found`);
+
+      if (user.avatar === avatar.originalname) {
+        await session.commitTransaction();
+
+        return user;
+      }
+
+      const updatedUser = await this.userService.updateUserAvatar(
         username,
         avatar.originalname,
       );

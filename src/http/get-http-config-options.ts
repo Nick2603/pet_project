@@ -1,4 +1,4 @@
-import { HttpModuleOptions } from '@nestjs/axios';
+import type { HttpModuleOptions } from '@nestjs/axios';
 import { AppConfigService } from 'src/config/app-config.service';
 
 export const getHttpConfigOptions = (

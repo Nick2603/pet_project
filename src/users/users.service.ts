@@ -81,4 +81,8 @@ export class UsersService {
   async updateUserAvatar(username: string, avatar: string): Promise<User> {
     return this.usersRepository.updateUserAvatar(username, avatar);
   }
+
+  async findByUsername(username: string): Promise<User | null> {
+    return this.usersQueryRepository.findByUsername(username);
+  }
 }

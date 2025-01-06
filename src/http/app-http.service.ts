@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { AxiosError, GenericAbortSignal } from 'axios';
+import type { AxiosError, GenericAbortSignal } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()

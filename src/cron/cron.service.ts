@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CronExpression, SchedulerRegistry } from '@nestjs/schedule';
+import { type CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 @Injectable()
 export class CronService {

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import type { HydratedDocument } from 'mongoose';
 import type { user } from '../types';
 import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';

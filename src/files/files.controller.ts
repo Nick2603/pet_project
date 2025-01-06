@@ -14,8 +14,9 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
 import type { Response } from 'express';
+import { PARAMETERS, ROUTS } from 'src/constants/routs';
 
-@Controller('files')
+@Controller(ROUTS.FILES.BASE)
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
@@ -36,8 +37,11 @@ export class FilesController {
     return this.filesService.save(file);
   }
 
-  @Get(':filename')
-  async readFile(@Param('filename') filename: string, @Res() res: Response) {
+  @Get(`:${PARAMETERS.FILE_NAME}`)
+  async readFile(
+    @Param(PARAMETERS.FILE_NAME) filename: string,
+    @Res() res: Response,
+  ) {
     const fileStream = await this.filesService.read(filename);
 
     res.setHeader('Content-Type', 'image/jpeg');
@@ -45,7 +49,7 @@ export class FilesController {
     fileStream.pipe(res);
   }
 
-  @Post('user-avatar/:username')
+  @Post(`${ROUTS.FILES.POST_USER_AVATAR}/:${PARAMETERS.USER_NAME}`)
   @HttpCode(201)
   @UseInterceptors(FileInterceptor('file'))
   async uploadUserAvatar(
@@ -58,7 +62,7 @@ export class FilesController {
       }),
     )
     file: Express.Multer.File,
-    @Param('username') username: string,
+    @Param(PARAMETERS.USER_NAME) username: string,
   ) {
     return this.filesService.updateUserAvatar(file, username);
   }

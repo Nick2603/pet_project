@@ -1,4 +1,4 @@
-import { MulterModuleOptions } from '@nestjs/platform-express';
+import type { MulterModuleOptions } from '@nestjs/platform-express';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import { AppConfigService } from 'src/config/app-config.service';
 
