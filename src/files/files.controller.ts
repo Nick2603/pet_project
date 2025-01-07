@@ -3,6 +3,7 @@ import {
   FileTypeValidator,
   Get,
   HttpCode,
+  HttpStatus,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
@@ -21,7 +22,7 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Post()
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile(
@@ -50,7 +51,7 @@ export class FilesController {
   }
 
   @Post(`${ROUTS.FILES.POST_USER_AVATAR}/:${PARAMETERS.USER_NAME}`)
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('file'))
   async uploadUserAvatar(
     @UploadedFile(
