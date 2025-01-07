@@ -2,6 +2,7 @@ import {
   Controller,
   FileTypeValidator,
   Get,
+  Header,
   HttpCode,
   HttpStatus,
   MaxFileSizeValidator,
@@ -39,13 +40,12 @@ export class FilesController {
   }
 
   @Get(`:${PARAMETERS.FILE_NAME}`)
+  @Header('Content-Type', 'image/jpeg')
   async readFile(
     @Param(PARAMETERS.FILE_NAME) filename: string,
     @Res() res: Response,
   ) {
     const fileStream = await this.filesService.read(filename);
-
-    res.setHeader('Content-Type', 'image/jpeg');
 
     fileStream.pipe(res);
   }
