@@ -4,15 +4,14 @@ import { UsersModule } from './users/users.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppHttpModule } from './http/app-http.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { getThrottlerConfigOptions } from './throttle/get-throttler-config-options';
-import { AppConfigService } from './config/app-config.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { getMongooseConfigOptions } from './mongoose/get-mongoose-config-options';
 import { FilesModule } from './files/files.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfigOptions } from './multer/get-multer-config-options';
 import { CacheModule } from '@nestjs/cache-manager';
-import { getCacheConfigOptions } from './cache/get-cache-config-options';
+import { MongooseConfigService } from './mongoose/MongooseConfigService';
+import { CacheConfigService } from './cache/CacheConfigService';
+import { MulterConfigService } from './multer/MulterConfigService';
+import { ThrottlerConfigService } from './throttle/ThrottlerConfigService';
 
 @Module({
   imports: [
@@ -22,25 +21,21 @@ import { getCacheConfigOptions } from './cache/get-cache-config-options';
     ScheduleModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [AppConfigModule],
-      inject: [AppConfigService],
-      useFactory: getMongooseConfigOptions,
+      useClass: MongooseConfigService,
     }),
     ThrottlerModule.forRootAsync({
       imports: [AppConfigModule],
-      inject: [AppConfigService],
-      useFactory: getThrottlerConfigOptions,
+      useClass: ThrottlerConfigService,
     }),
     FilesModule,
     MulterModule.registerAsync({
       imports: [AppConfigModule],
-      inject: [AppConfigService],
-      useFactory: getMulterConfigOptions,
+      useClass: MulterConfigService,
     }),
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [AppConfigModule],
-      inject: [AppConfigService],
-      useFactory: getCacheConfigOptions,
+      useClass: CacheConfigService,
     }),
   ],
 })

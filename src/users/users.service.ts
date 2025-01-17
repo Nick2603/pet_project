@@ -1,5 +1,5 @@
 import { CronService } from './../cron/cron.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import type { user } from './types';
 import { AppConfigService } from 'src/config/app-config.service';
 import { CronExpression } from '@nestjs/schedule';
@@ -11,7 +11,7 @@ import { User } from './schemas/user.schema';
 import { findNew } from 'src/utils/findNew';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit, OnModuleDestroy {
   private readonly cronJobName = 'processUsers';
   private readonly queryName = 'query users';
   private readonly abortController = new AbortController();
@@ -24,11 +24,11 @@ export class UsersService {
     private readonly usersQueryRepository: UsersQueryRepository,
   ) {}
 
-  private async onModuleInit(): Promise<void> {
+  async onModuleInit(): Promise<void> {
     await this.processUsers();
   }
 
-  private async onModuleDestroy(): Promise<void> {
+  onModuleDestroy(): void {
     this.abortController.abort();
   }
 
